@@ -1,0 +1,23 @@
+syntax: glob
+
+*.idea
+*/target/*
+target/*
+*.iml
+out
+release.properties
+*/release.properties
+#*.pfx
+
+*VAADIN/lib/*/*.jar
+*VAADIN/widgetsets/*
+
+*VAADIN/themes/*/styles.css
+*VAADIN/themes/*/addons.scss
+
+sea-web/src/main/webapp/META-INF/MANIFEST.MF
+
+logs/.LOG
+
+*.LOG
+*.log
