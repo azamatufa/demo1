@@ -1,19 +1,19 @@
-package com.example.demo;
+package com.example.demo.endpoint;
 
-import com.example.demo.model.JsFrameworkEntity;
-import com.example.demo.repository.JsFrameworkRepository;
+import com.example.demo.model.JavaScriptFramework;
+import com.example.demo.service.JavaScriptFrameworkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class MyRestController {
+public class JavaScriptFrameworkController {
     @Autowired
-    private JsFrameworkRepository jsFrameworkRepository;
+    private JavaScriptFrameworkService javaScriptFrameworkService;
 
     @RequestMapping("/hello")
     public String hello() {
-        JsFrameworkEntity one = jsFrameworkRepository.getOne(1l);
+        JavaScriptFramework one = javaScriptFrameworkService.getOne(1l);
         return "Hello Gradle! > " + one;
     }
 
