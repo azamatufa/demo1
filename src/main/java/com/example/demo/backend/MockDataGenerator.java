@@ -1,8 +1,8 @@
-package com.example.demo;
+package com.example.demo.backend;
 
-import com.example.demo.model.HypeLevel;
-import com.example.demo.model.JavaScriptFramework;
-import com.example.demo.repository.JavaScriptFrameworkRepository;
+import com.example.demo.backend.model.HypeLevel;
+import com.example.demo.backend.model.JavaScriptFramework;
+import com.example.demo.backend.repository.JavaScriptFrameworkRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class MockDataGenerator {
 
     @PostConstruct
     private void generateMockData() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10000; i++) {
             JavaScriptFramework entity = new JavaScriptFramework("JSF_" + i,
                     String.valueOf(ThreadLocalRandom.current().nextInt(1, 5)),
                     randomLocalDate(), randomHypeLevel()

@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EntityScan({"com.example.demo"})
 @EnableJpaRepositories({"com.example.demo"})
-//@ComponentScan({"com.example.demo"})
+@ComponentScan({"com.example.demo"})
 /*
 * @EnableJpaRepositories({"ru.bashneft.adminpanel"})
 @ComponentScan({"ru.bashneft.adminpanel"})

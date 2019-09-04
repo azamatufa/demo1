@@ -1,6 +1,4 @@
-package com.example.demo.model;
-
-import lombok.*;
+package com.example.demo.backend.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +12,7 @@ public class JavaScriptFramework {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    private String frameworkName;
     private String version;
     private LocalDate deprecationDate;
     private HypeLevel hypeLevel;
@@ -22,8 +20,8 @@ public class JavaScriptFramework {
     public JavaScriptFramework() {
     }
 
-    public JavaScriptFramework(String name, String version, LocalDate deprecationDate, HypeLevel hypeLevel) {
-        this.name = name;
+    public JavaScriptFramework(String frameworkName, String version, LocalDate deprecationDate, HypeLevel hypeLevel) {
+        this.frameworkName = frameworkName;
         this.version = version;
         this.deprecationDate = deprecationDate;
         this.hypeLevel = hypeLevel;
@@ -37,12 +35,12 @@ public class JavaScriptFramework {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFrameworkName() {
+        return frameworkName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFrameworkName(String frameworkName) {
+        this.frameworkName = frameworkName;
     }
 
     public String getVersion() {
@@ -86,7 +84,7 @@ public class JavaScriptFramework {
     public String toString() {
         return "JavaScriptFramework{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + frameworkName + '\'' +
                 ", version='" + version + '\'' +
                 ", deprecationDate=" + deprecationDate +
                 ", hypeLevel=" + hypeLevel +
