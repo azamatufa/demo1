@@ -9,11 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class JavaScriptFrameworkRestClientTest {
+
+    final String BASE_URL = "http://localhost:8080/framework/";
+    final String GET_URL_PATTERN = "http://localhost:8080/framework/?id=%s";
+
 
     @LocalServerPort
     int port;
@@ -23,6 +32,43 @@ public class JavaScriptFrameworkRestClientTest {
 
     @Autowired
     JavaScriptFrameworkRestClient client;
+
+
+    @Test
+    public void updateTest() {
+        JavaScriptFramework javaScriptFramework = get(1L);
+
+        javaScriptFramework.setFrameworkName("abc");
+        testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        testRestTemplate.patchForObject(BASE_URL, javaScriptFramework, JavaScriptFramework.class);
+
+        JavaScriptFramework updated = get(1L);
+        assertThat(updated.getFrameworkName(), is("abc"));
+
+    }
+
+    @Test
+    public void getTest() {
+        JavaScriptFramework javaScriptFramework = get(1L);
+        assertThat(javaScriptFramework.getId(), is(1L));
+    }
+
+    @Test
+    public void createTest() {
+        JavaScriptFramework framework = new JavaScriptFramework();
+        String millis = String.valueOf(System.currentTimeMillis());
+        framework.setFrameworkName(millis);
+        ResponseEntity<JavaScriptFramework> responseEntity = testRestTemplate.postForEntity(BASE_URL, framework, JavaScriptFramework.class);
+        JavaScriptFramework javaScriptFramework = responseEntity.getBody();
+        assert javaScriptFramework != null;
+        assertThat(javaScriptFramework.getFrameworkName(), is(millis));
+    }
+
+    private JavaScriptFramework get(Long id) {
+        final String URL = String.format(GET_URL_PATTERN, id);
+        ResponseEntity<JavaScriptFramework> responseEntity = testRestTemplate.getForEntity(URL, JavaScriptFramework.class);
+        return responseEntity.getBody();
+    }
 
     @Test
     public void getPageTest() {

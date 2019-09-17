@@ -27,7 +27,7 @@ public class JavaScriptFrameworkForm extends FormLayout {
     private TextField frameworkName;
     private TextField version;
     private DateField deprecationDate;
-    private CheckBoxGroup<HypeLevel> hypeLevel;
+    private ComboBox<HypeLevel> hypeLevel;
 
     private Button save;
     private Button discard;
@@ -44,23 +44,36 @@ public class JavaScriptFrameworkForm extends FormLayout {
 
     @PostConstruct
     private void init() {
-        frameworkName = new TextField();
-        version = new TextField();
-        deprecationDate = new DateField();
-        hypeLevel = new CheckBoxGroup<>();
+        frameworkName = new TextField("Name");
+        version = new TextField("Version");
+        deprecationDate = new DateField("Deprecation Date");
+        hypeLevel = new ComboBox<>("Hype Level");
 
         save = new Button("Save", e -> onSave());
         discard = new Button("Discard");
         cancel = new Button("Cancel");
         delete = new Button("Delete");
 
+        hypeLevel.setItems(HypeLevel.values());
+
         binder.forField(frameworkName).bind("frameworkName");
         binder.forField(deprecationDate).bind("deprecationDate");
+        binder.forField(version).bind("version");
 
         // hypeLevel.setItemCaptionGenerator();
         binder.forField(hypeLevel).bind("hypeLevel");
 
         binder.addStatusChangeListener(this::updateButtons);
+
+        addComponent(frameworkName);
+        addComponent(version);
+        addComponent(deprecationDate);
+        addComponent(hypeLevel);
+
+        addComponent(save);
+        addComponent(discard);
+        addComponent(cancel);
+        addComponent(delete);
 
     }
 

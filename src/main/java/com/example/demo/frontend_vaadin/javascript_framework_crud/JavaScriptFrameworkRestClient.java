@@ -23,6 +23,10 @@ public class JavaScriptFrameworkRestClient {
     private static final String GET_FRAMEWORKS_URL_PATTERN = "http://localhost:8080/list/?startIndex=%s&limit=%s&filterString=%s&orderByClause=%s";
     private static final String GET_FRAMEWORKS_SIZE_URL_PATTERN = "http://localhost:8080/size/?filterString={0}";
 
+    public JavaScriptFramework save(JavaScriptFramework javaScriptFramework) {
+        //
+    }
+
     public Stream<JavaScriptFramework> fetchFromBackEnd(int offset, int limit, String filterStr, String sorting) {
         log.info("fetchFromBackEnd. offset={}, limit={}, filterStr={}, sorting={}", offset, limit, filterStr, sorting);
 

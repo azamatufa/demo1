@@ -1,7 +1,7 @@
 package com.example.demo.frontend_vaadin.javascript_framework_crud;
 
-import com.example.demo.frontend_vaadin.MainUI;
 import com.example.demo.backend.model.JavaScriptFramework;
+import com.example.demo.frontend_vaadin.MainUI;
 import com.vaadin.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
  * View (main layout) of JavaScriptFrameWorks crud.
  */
 @SpringView(name = JavaScriptFrameworkView.PATH, ui = MainUI.class)
-public class JavaScriptFrameworkView extends CssLayout implements View {
+public class JavaScriptFrameworkView extends HorizontalLayout implements View {
     public static final String PATH = "javascript_frameworks_crud";
 
     @Autowired
@@ -34,12 +34,14 @@ public class JavaScriptFrameworkView extends CssLayout implements View {
 
     @PostConstruct
     private void init() {
-
-        btnEdit = new Button("Edit");
-        btnEdit.addClickListener(e -> logic.edit(grid.getSelectedRow()));
+        btnNew = new Button("New");
+        btnEdit = new Button("Edit", e -> onEdit());
 
         filterDataProvider = dataProvider.withConfigurableFilter();
         grid.setDataProvider(filterDataProvider);
+        grid.asSingleSelect().addValueChangeListener(event -> {
+            onEdit();
+        });
 
         VerticalLayout barAndGrid = new VerticalLayout();
         barAndGrid.addComponent(createTopBar());
@@ -53,21 +55,26 @@ public class JavaScriptFrameworkView extends CssLayout implements View {
 
     }
 
+    private void onEdit() {
+        JavaScriptFramework selectedRow = grid.getSelectedRow();
+        logic.edit(selectedRow);
+    }
+
     private HorizontalLayout createTopBar() {
-        filterTextField = new TextField();
+        filterTextField = new TextField("Filter");
         filterTextField.addValueChangeListener(e -> filterDataProvider.setFilter(e.getValue()));
-        btnNew = new Button("New");
+
         HorizontalLayout hl = new HorizontalLayout();
-        hl.addComponents(filterTextField, btnNew);
+        hl.addComponents(filterTextField, btnNew, btnEdit);
         return hl;
     }
 
 
     public void edit(JavaScriptFramework javaScriptFramework) {
         if (javaScriptFramework != null) {
-            form.setEnabled(true);
+            form.setVisible(true);
         } else {
-            form.setEnabled(false);
+            form.setVisible(false);
         }
         form.edit(javaScriptFramework);
     }
@@ -75,5 +82,18 @@ public class JavaScriptFrameworkView extends CssLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         System.out.println("enter " + event.getParameters());
+    }
+
+    public void showNotification(String msg) {
+        Notification.show("Сообщение", msg, Notification.Type.HUMANIZED_MESSAGE);
+    }
+
+    public void clearSelection() {
+        grid.getSelectionModel().deselectAll();
+
+    }
+
+    public void refreshGrid() {
+        dataProvider.refreshAll();
     }
 }
