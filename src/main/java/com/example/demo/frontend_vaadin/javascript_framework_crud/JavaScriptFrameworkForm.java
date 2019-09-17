@@ -57,8 +57,10 @@ public class JavaScriptFrameworkForm extends FormLayout {
         hypeLevel.setItems(HypeLevel.values());
 
         binder.forField(frameworkName).bind("frameworkName");
-        binder.forField(deprecationDate).bind("deprecationDate");
+        //binder.forField(deprecationDate).bind("deprecationDate");
         binder.forField(version).bind("version");
+
+        binder.bind(deprecationDate, JavaScriptFramework::getDeprecationDate, JavaScriptFramework::setDeprecationDate);
 
         // hypeLevel.setItemCaptionGenerator();
         binder.forField(hypeLevel).bind("hypeLevel");

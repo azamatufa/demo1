@@ -31,7 +31,7 @@ public class JavaScriptFrameworkLogic {
     }
 
     public void save(JavaScriptFramework javaScriptFramework) {
-        JavaScriptFramework saved = restClient.save(javaScriptFramework);
+        JavaScriptFramework saved = restClient.update(javaScriptFramework);
         view.showNotification(javaScriptFramework.getFrameworkName() + " ("
                 + javaScriptFramework.getId() + ") updated");
         view.clearSelection();

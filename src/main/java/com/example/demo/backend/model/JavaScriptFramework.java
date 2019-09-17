@@ -1,20 +1,25 @@
 package com.example.demo.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
-@Data
+//@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class JavaScriptFramework {
     @Id
@@ -22,7 +27,10 @@ public class JavaScriptFramework {
     private Long id;
     private String frameworkName;
     private String version;
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate deprecationDate;
+
     private HypeLevel hypeLevel;
 
 

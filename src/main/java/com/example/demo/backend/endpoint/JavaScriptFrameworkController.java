@@ -13,10 +13,7 @@ public class JavaScriptFrameworkController {
     @Autowired
     private JavaScriptFrameworkService service;
 
-    @RequestMapping(value = "framework", method = RequestMethod.PATCH)
-    public JavaScriptFramework update(@RequestBody JavaScriptFramework framework) {
-        return service.update(framework);
-    }
+    // CRUD
 
     @RequestMapping(value = "framework", method = RequestMethod.POST)
     public JavaScriptFramework create(@RequestBody JavaScriptFramework framework) {
@@ -24,11 +21,23 @@ public class JavaScriptFrameworkController {
     }
 
     @RequestMapping(value = "framework", method = RequestMethod.GET)
-    public JavaScriptFramework get(@RequestParam(name = "id") Long id) {
-        return service.get(id);
+    public JavaScriptFramework read(@RequestParam(name = "id") Long id) {
+        return service.read(id);
     }
 
-    @RequestMapping("list")
+    @RequestMapping(value = "framework", method = RequestMethod.PUT)
+    public JavaScriptFramework update(@RequestBody JavaScriptFramework framework) {
+        return service.update(framework);
+    }
+
+    @RequestMapping(value = "framework", method = RequestMethod.DELETE)
+    public void delete(@RequestParam(name = "id") Long id) {
+        service.delete(id);
+    }
+
+
+
+    @RequestMapping(value = "list", method = RequestMethod.GET)
     public List<JavaScriptFramework> list(
             @RequestParam(value = "startIndex", defaultValue = "0", required = false) int startIndex,
             @RequestParam("limit") int limit,
@@ -37,7 +46,7 @@ public class JavaScriptFrameworkController {
         return service.getList(startIndex, limit, filterString, orderByClause);
     }
 
-    @RequestMapping("size")
+    @RequestMapping(value = "size", method = RequestMethod.GET)
     public PageSizeWrapper size(
             @RequestParam(value = "filterString", defaultValue = "", required = false) String filterString) {
         Integer size = service.getListSize(filterString);
@@ -46,7 +55,7 @@ public class JavaScriptFrameworkController {
 
     @RequestMapping("/hello")
     public String hello() {
-        JavaScriptFramework one = service.get(1L);
+        JavaScriptFramework one = service.read(1L);
         return "Hello Gradle! > " + one;
     }
 

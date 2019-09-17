@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.backend.model.JavaScriptFramework;
 import com.example.demo.backend.model.PageSizeWrapper;
 import com.example.demo.frontend_vaadin.javascript_framework_crud.JavaScriptFrameworkRestClient;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,15 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@Slf4j
 public class JavaScriptFrameworkRestClientTest {
 
     final String BASE_URL = "http://localhost:8080/framework/";
-    final String GET_URL_PATTERN = "http://localhost:8080/framework/?id=%s";
+    final String URL_ID_PATTERN = "http://localhost:8080/framework/?id=%s";
 
 
     @LocalServerPort
@@ -32,6 +34,14 @@ public class JavaScriptFrameworkRestClientTest {
 
     @Autowired
     JavaScriptFrameworkRestClient client;
+
+    @Test
+    public void deleteTest() {
+        String url = String.format(URL_ID_PATTERN, 1);
+        testRestTemplate.delete(url);
+        JavaScriptFramework javaScriptFramework = get(1l);
+        assertNull(javaScriptFramework);
+    }
 
 
     @Test
@@ -54,6 +64,12 @@ public class JavaScriptFrameworkRestClientTest {
     }
 
     @Test
+    public void readNotFoundTest() {
+        JavaScriptFramework javaScriptFramework = get(666L);
+        assertNull(javaScriptFramework);
+    }
+
+    @Test
     public void createTest() {
         JavaScriptFramework framework = new JavaScriptFramework();
         String millis = String.valueOf(System.currentTimeMillis());
@@ -65,19 +81,19 @@ public class JavaScriptFrameworkRestClientTest {
     }
 
     private JavaScriptFramework get(Long id) {
-        final String URL = String.format(GET_URL_PATTERN, id);
+        final String URL = String.format(URL_ID_PATTERN, id);
         ResponseEntity<JavaScriptFramework> responseEntity = testRestTemplate.getForEntity(URL, JavaScriptFramework.class);
         return responseEntity.getBody();
     }
 
     @Test
-    public void getPageTest() {
-        System.out.println("--------------------Test");
-        System.out.println("port " + port);
+    public void getPage_FiveItems() {
         String url = "http://localhost:8080/list/?startIndex=0&limit=5&filterString=&orderByClause=asd";
         JavaScriptFramework[] list = testRestTemplate.getForObject(url, JavaScriptFramework[].class);
+        assertNotNull(list);
+        assertTrue(list.length == 5);
         for (JavaScriptFramework javaScriptFramework : list) {
-            System.out.println(javaScriptFramework);
+            log.info("{}", javaScriptFramework);
         }
 
 
