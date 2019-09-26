@@ -9,9 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableAutoConfiguration
-//@SpringBootApplication
 @EnableJpaRepositories
 @ComponentScan
 public class TestConfig {
-
 }
