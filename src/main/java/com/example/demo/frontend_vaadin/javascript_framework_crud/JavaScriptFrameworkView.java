@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 
 /**
- * View (main layout) of JavaScriptFrameWorks crud.
+ * View (main layout)
  */
 @SpringView(name = JavaScriptFrameworkView.PATH, ui = MainUI.class)
 public class JavaScriptFrameworkView extends HorizontalLayout implements View {
@@ -30,12 +30,10 @@ public class JavaScriptFrameworkView extends HorizontalLayout implements View {
 
     private TextField filterTextField;
     private Button btnNew;
-    private Button btnEdit;
 
     @PostConstruct
     private void init() {
-        btnNew = new Button("New");
-        btnEdit = new Button("Edit", e -> onEdit());
+        btnNew = new Button("New", e->onNew());
 
         filterDataProvider = dataProvider.withConfigurableFilter();
         grid.setDataProvider(filterDataProvider);
@@ -49,10 +47,13 @@ public class JavaScriptFrameworkView extends HorizontalLayout implements View {
 
         addComponent(barAndGrid);
         addComponent(form);
-        addComponent(new Label("Demo"));
 
         logic.init(this);
 
+    }
+
+    private void onNew() {
+        edit(new JavaScriptFramework());
     }
 
     private void onEdit() {
@@ -65,7 +66,7 @@ public class JavaScriptFrameworkView extends HorizontalLayout implements View {
         filterTextField.addValueChangeListener(e -> filterDataProvider.setFilter(e.getValue()));
 
         HorizontalLayout hl = new HorizontalLayout();
-        hl.addComponents(filterTextField, btnNew, btnEdit);
+        hl.addComponents(filterTextField, btnNew);
         return hl;
     }
 
@@ -85,7 +86,7 @@ public class JavaScriptFrameworkView extends HorizontalLayout implements View {
     }
 
     public void showNotification(String msg) {
-        Notification.show("Сообщение", msg, Notification.Type.HUMANIZED_MESSAGE);
+        Notification.show("Сообщение", msg, Notification.Type.TRAY_NOTIFICATION);
     }
 
     public void clearSelection() {

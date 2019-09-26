@@ -15,12 +15,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Entity
-//@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@ToString
 public class JavaScriptFramework {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

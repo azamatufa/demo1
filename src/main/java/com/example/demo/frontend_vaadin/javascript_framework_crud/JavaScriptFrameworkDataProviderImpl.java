@@ -28,12 +28,11 @@ public class JavaScriptFrameworkDataProviderImpl extends AbstractBackEndDataProv
         for (QuerySortOrder sortOrder : sortOrders) {
             String property = sortOrder.getSorted();
             SortDirection direction = sortOrder.getDirection();
-            orderByClause.append(property).append(" ").append(direction).append(",");
+            orderByClause.append(property).append(":").append(direction).append(",");
         }
         // remove last comma
         if (orderByClause.length() > 1) {
             orderByClause.deleteCharAt(orderByClause.length() - 1);
-            orderByClause.insert(0, " order by ");
         }
 
         return restClient.fetchFromBackEnd(query.getOffset(), query.getLimit(), query.getFilter().orElse(""), orderByClause.toString());

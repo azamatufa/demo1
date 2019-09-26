@@ -4,10 +4,11 @@ import lombok.*;
 
 /**
  * I am not able to get Integer value from rest service
- * as follow:
+ * as follow: restTemplate.getForObject("url",Integer.class)
+ * so, wrapper class have been created
  *
- * restTemplate.getForObject("url",Integer.class)
- *
+ * update
+ * if Im not mistaken, it is ok to use getForEntity(...
  */
 
 @Getter

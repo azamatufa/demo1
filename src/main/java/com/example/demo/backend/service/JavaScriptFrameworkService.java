@@ -14,6 +14,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ *  Service Layer for Rest Controller
+ *  see javadoc: {@link com.example.demo.backend.endpoint.JavaScriptFrameworkController}
+ */
 @Component
 @Slf4j
 public class JavaScriptFrameworkService {
@@ -26,9 +30,6 @@ public class JavaScriptFrameworkService {
         this.pageService = pageService;
     }
 
-    public String hello() {
-        return "hello";
-    }
 
     public JavaScriptFramework create(JavaScriptFramework framework) {
         Preconditions.checkNotNull(framework, "framework cannot be null.");
@@ -63,8 +64,8 @@ public class JavaScriptFrameworkService {
     }
 
 
-    public List<JavaScriptFramework> getList(int startIndex, int limit, String filterStr, String orderByClause) {
-        PageQuery pageQuery = pageService.getPaging(startIndex, limit);
+    public List<JavaScriptFramework> getPage(int startIndex, int limit, String filterStr, String orderByClause) {
+        PageQuery pageQuery = pageService.getPaging(startIndex, limit, orderByClause);
 
         Page<JavaScriptFramework> page = repository.findAll(
                 JavaScriptFrameworkSpecification.withFilter(filterStr),
@@ -76,7 +77,8 @@ public class JavaScriptFrameworkService {
                         .collect(Collectors.toList());
     }
 
-    public Integer getListSize(String filterString) {
+
+    public Integer getPageSize(String filterString) {
         return Math.toIntExact(repository.count(JavaScriptFrameworkSpecification.withFilter(filterString)));
     }
 

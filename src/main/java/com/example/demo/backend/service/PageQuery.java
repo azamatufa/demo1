@@ -3,7 +3,7 @@ package com.example.demo.backend.service;
 import org.springframework.data.domain.Pageable;
 
 /**
- * @author almukhametovar
+ * @author Vaadin
  */
 public class PageQuery {
     public Pageable pageable;

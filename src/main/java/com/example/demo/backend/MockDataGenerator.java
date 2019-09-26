@@ -22,9 +22,9 @@ public class MockDataGenerator {
 
     @PostConstruct
     private void generateMockData() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             JavaScriptFramework entity = new JavaScriptFramework(null,
-                    "JSF_" + i,
+                    "Framework_" + i,
                     String.valueOf(ThreadLocalRandom.current().nextInt(1, 5)),
                     randomLocalDate(), randomHypeLevel()
             );

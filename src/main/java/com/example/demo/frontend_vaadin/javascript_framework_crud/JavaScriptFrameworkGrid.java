@@ -14,8 +14,14 @@ public class JavaScriptFrameworkGrid extends Grid<JavaScriptFramework> {
 
     @PostConstruct
     private void init() {
-        addColumn(JavaScriptFramework::getFrameworkName).setCaption("Framework Name")
+        addColumn(JavaScriptFramework::getFrameworkName).setCaption("Name")
                 .setSortProperty("frameworkName");
+        addColumn(JavaScriptFramework::getVersion).setCaption("Version")
+                .setSortProperty("version");
+        addColumn(JavaScriptFramework::getDeprecationDate).setCaption("Deprecation date")
+                .setSortProperty("deprecationDate");
+        addColumn(JavaScriptFramework::getHypeLevel).setCaption("Hype Level")
+                .setSortProperty("hypeLevel");
     }
 
     public JavaScriptFramework getSelectedRow() {

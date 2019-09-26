@@ -12,7 +12,9 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -20,10 +22,11 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Slf4j
+@Transactional
 public class JavaScriptFrameworkRestClientTest {
 
-    final String BASE_URL = "http://localhost:8080/framework/";
-    final String URL_ID_PATTERN = "http://localhost:8080/framework/?id=%s";
+    final String BASE_URL = "http://localhost:8080/api/framework/";
+    final String URL_ID_PATTERN = "http://localhost:8080/api/framework/?id=%s";
 
 
     @LocalServerPort
@@ -49,8 +52,7 @@ public class JavaScriptFrameworkRestClientTest {
         JavaScriptFramework javaScriptFramework = get(1L);
 
         javaScriptFramework.setFrameworkName("abc");
-        testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-        testRestTemplate.patchForObject(BASE_URL, javaScriptFramework, JavaScriptFramework.class);
+        testRestTemplate.put(BASE_URL, javaScriptFramework);
 
         JavaScriptFramework updated = get(1L);
         assertThat(updated.getFrameworkName(), is("abc"));
@@ -88,10 +90,10 @@ public class JavaScriptFrameworkRestClientTest {
 
     @Test
     public void getPage_FiveItems() {
-        String url = "http://localhost:8080/list/?startIndex=0&limit=5&filterString=&orderByClause=asd";
+        String url = "http://localhost:8080/api/list/?startIndex=0&limit=5&filterString=&orderByClause=";
         JavaScriptFramework[] list = testRestTemplate.getForObject(url, JavaScriptFramework[].class);
         assertNotNull(list);
-        assertTrue(list.length == 5);
+        assertEquals(5, list.length);
         for (JavaScriptFramework javaScriptFramework : list) {
             log.info("{}", javaScriptFramework);
         }
@@ -101,11 +103,11 @@ public class JavaScriptFrameworkRestClientTest {
 
     @Test
     public void getPageSizeTest() {
-        String url_0 = "http://localhost:8080/size/?filterString=";
-        String url_9 = "http://localhost:8080/size/?filterString=9";
+        String url_0 = "http://localhost:8080/api/size/?filterString=";
+        String url_9 = "http://localhost:8080/api/size/?filterString=9";
         PageSizeWrapper size0 = testRestTemplate.getForObject(url_0, PageSizeWrapper.class);
-        System.out.println(size0);
+        assertTrue(100 == size0.getPageSize());
         PageSizeWrapper size9 = testRestTemplate.getForObject(url_9, PageSizeWrapper.class);
-        System.out.println(size9);
+        assertTrue(19 == size9.getPageSize());
     }
 }

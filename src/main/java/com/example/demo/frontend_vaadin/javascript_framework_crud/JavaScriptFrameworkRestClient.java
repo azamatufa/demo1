@@ -17,21 +17,21 @@ import java.util.stream.Stream;
 /**
  * Rest consumer.
  * <p>
- * According to demo task, ui and backend should communicate using REST.
+ * According to demo task, UI and BackEnd should be separated and communicate using REST.
  */
 @SpringComponent
 public class JavaScriptFrameworkRestClient {
     private static final Logger log = LoggerFactory.getLogger(JavaScriptFrameworkRestClient.class);
 
-    // POST - create, PATCH - update
-    private static final String BASE_URL = "http://localhost:8080/framework/";
+    // POST - create, PUT - update
+    private static final String BASE_URL = "http://localhost:8080/api/framework/";
 
     // GET - read, DELETE - delete
-    private static final String URL_ID_PATTERN = "http://localhost:8080/framework/?id=%s";
+    private static final String URL_ID_PATTERN = "http://localhost:8080/api/framework/?id=%s";
 
     // Paged data fetch url patterns
-    private static final String GET_PAGE_URL_PATTERN = "http://localhost:8080/list/?startIndex=%s&limit=%s&filterString=%s&orderByClause=%s";
-    private static final String GET_PAGE_SIZE_URL_PATTERN = "http://localhost:8080/size/?filterString={0}";
+    private static final String GET_PAGE_URL_PATTERN = "http://localhost:8080/api/list/?startIndex=%s&limit=%s&filterString=%s&orderByClause=%s";
+    private static final String GET_PAGE_SIZE_URL_PATTERN = "http://localhost:8080/api/size/?filterString={0}";
 
 
     public JavaScriptFramework create(JavaScriptFramework javaScriptFramework) {
@@ -49,7 +49,6 @@ public class JavaScriptFrameworkRestClient {
 
     public JavaScriptFramework update(JavaScriptFramework javaScriptFramework) {
         RestTemplate restTemplate = new RestTemplate();
-        //RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
         restTemplate.put(BASE_URL, javaScriptFramework);
         return read(javaScriptFramework.getId());
     }
@@ -73,7 +72,7 @@ public class JavaScriptFrameworkRestClient {
         log.info("fetchFromBackEnd. offset={}, limit={}, filterStr={}, sorting={}", offset, limit, filterStr, sorting);
 
         String getFrameworksUrl = String.format(GET_PAGE_URL_PATTERN, offset, limit, filterStr, sorting);
-
+        log.info("getFrameworksUrl = {}", getFrameworksUrl);
         RestTemplate restTemplate = new RestTemplate();
         JavaScriptFramework[] frameworks = restTemplate.getForObject(getFrameworksUrl, JavaScriptFramework[].class);
         if (frameworks == null) {

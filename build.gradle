@@ -17,22 +17,28 @@ configurations {
 
 repositories {
     mavenCentral()
-    // mavenLocal()
+    maven {
+        url 'https://maven.vaadin.com/vaadin-addons'
+        content {
+            includeGroupByRegex "org\\.vaadin.*"
+        }
+    }
 }
 
 ext {
-//   set('vaadinVersion', "14.0.0")
     set('vaadinVersion', "8.7.1")
 }
 
 dependencies {
-    //implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.vaadin:vaadin-spring-boot-starter'
     implementation 'com.google.guava:guava:19.0'
     implementation 'org.apache.httpcomponents:httpclient:4.5.9'
+
+    implementation 'org.vaadin.addon:confirmdialog:3.2.0'
+
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
@@ -49,4 +55,6 @@ dependencyManagement {
         mavenBom "org.springframework.boot:spring-boot-dependencies:2.0.2.RELEASE"
     }
 }
+
+
 

@@ -11,7 +11,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@SpringUI(path = "ui")
+@SpringUI(path = "/")
 public class MainUI extends UI {
 
     private Navigator navigator;
@@ -34,7 +34,7 @@ public class MainUI extends UI {
         navigator.addProvider(springViewProvider);
 
         navigator.navigateTo(JavaScriptFrameworkView.PATH);
-        root.addComponent(new Label("JavaScript Demo App"));
+        root.addComponent(new Label("JavaScriptFramework CRUD simple application"));
         root.addComponent(panel);
 
         setContent(root);

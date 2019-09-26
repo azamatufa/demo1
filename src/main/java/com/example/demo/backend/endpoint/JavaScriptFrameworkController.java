@@ -9,50 +9,88 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class JavaScriptFrameworkController {
     @Autowired
     private JavaScriptFrameworkService service;
 
     // CRUD
 
-    @RequestMapping(value = "framework", method = RequestMethod.POST)
+    /**
+     * [C]reate
+     * @param framework item to create
+     * @return created item
+     */
+    @RequestMapping(value = "/framework", method = RequestMethod.POST)
     public JavaScriptFramework create(@RequestBody JavaScriptFramework framework) {
         return service.create(framework);
     }
 
-    @RequestMapping(value = "framework", method = RequestMethod.GET)
+    /**
+     * [R]ead
+     * @param id id
+     * @return item
+     */
+    @RequestMapping(value = "/framework", method = RequestMethod.GET)
     public JavaScriptFramework read(@RequestParam(name = "id") Long id) {
         return service.read(id);
     }
 
-    @RequestMapping(value = "framework", method = RequestMethod.PUT)
+    /**
+     * [U]pdate
+     * @param framework item to update
+     * @return updated item
+     */
+    @RequestMapping(value = "/framework", method = RequestMethod.PUT)
     public JavaScriptFramework update(@RequestBody JavaScriptFramework framework) {
         return service.update(framework);
     }
 
-    @RequestMapping(value = "framework", method = RequestMethod.DELETE)
+    /**
+     * [D]elete
+     * @param id of item to delete
+     */
+    @RequestMapping(value = "/framework", method = RequestMethod.DELETE)
     public void delete(@RequestParam(name = "id") Long id) {
         service.delete(id);
     }
 
 
-
-    @RequestMapping(value = "list", method = RequestMethod.GET)
+    /**
+     * Get one page of data
+     *
+     * @param startIndex start index
+     * @param limit limit
+     * @param filterString filter string
+     * @param orderByClause special format, e.g. "name:ASCENDING,age:DESCENDING"
+     * @return
+     */
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<JavaScriptFramework> list(
             @RequestParam(value = "startIndex", defaultValue = "0", required = false) int startIndex,
             @RequestParam("limit") int limit,
             @RequestParam("filterString") String filterString,
             @RequestParam("orderByClause") String orderByClause) {
-        return service.getList(startIndex, limit, filterString, orderByClause);
+        return service.getPage(startIndex, limit, filterString, orderByClause);
     }
 
-    @RequestMapping(value = "size", method = RequestMethod.GET)
+    /**
+     * Count of items for specified filter
+     *
+     * @param filterString filter string
+     * @return count of items for specified filter
+     */
+    @RequestMapping(value = "/size", method = RequestMethod.GET)
     public PageSizeWrapper size(
             @RequestParam(value = "filterString", defaultValue = "", required = false) String filterString) {
-        Integer size = service.getListSize(filterString);
+        Integer size = service.getPageSize(filterString);
         return new PageSizeWrapper(size);
     }
 
+    /**
+     *  Simple hello
+     * @return hello
+     */
     @RequestMapping("/hello")
     public String hello() {
         JavaScriptFramework one = service.read(1L);

@@ -9,8 +9,17 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class with Specifications
+ */
 public class JavaScriptFrameworkSpecification {
 
+    /**
+     * Specification to search by "frameworkName"
+     *
+     * @param filterString filter
+     * @return spec
+     */
     public static Specification<JavaScriptFramework> withFilter(String filterString) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();

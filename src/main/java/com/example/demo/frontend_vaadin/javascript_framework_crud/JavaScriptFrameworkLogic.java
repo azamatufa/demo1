@@ -5,7 +5,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Logic (presenter) for View,Grid,Form. Tie them together;
+ * Logic (presenter) for View,Grid,Form. Ties them together;
  */
 @SpringComponent
 public class JavaScriptFrameworkLogic {
@@ -31,9 +31,27 @@ public class JavaScriptFrameworkLogic {
     }
 
     public void save(JavaScriptFramework javaScriptFramework) {
-        JavaScriptFramework saved = restClient.update(javaScriptFramework);
+        JavaScriptFramework saved;
+
+        if (javaScriptFramework.getId() == null) {
+            saved = restClient.create(javaScriptFramework);
+        } else {
+            saved = restClient.update(javaScriptFramework);
+
+        }
+
+        String msg = javaScriptFramework.getId() == null ? "Created " : "Saved ";
+
+        view.showNotification(msg + saved);
+        view.clearSelection();
+        view.edit(null);
+        view.refreshGrid();
+    }
+
+    public void delete(JavaScriptFramework javaScriptFramework) {
+        restClient.delete(javaScriptFramework.getId());
         view.showNotification(javaScriptFramework.getFrameworkName() + " ("
-                + javaScriptFramework.getId() + ") updated");
+                + javaScriptFramework.getId() + ") deleted.");
         view.clearSelection();
         view.edit(null);
         view.refreshGrid();
